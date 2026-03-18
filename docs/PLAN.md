@@ -66,13 +66,13 @@
 
 ### 2b. Spring Security & JWT
 
-- [ ] Create `JwtUtil.java` in `common/security/` — methods: `generateToken(username)`, `extractUsername(token)`, `isTokenValid(token, userDetails)`
-- [ ] Use JJWT 0.12.x API only — `Jwts.builder().subject(...).signWith(key, Jwts.SIG.HS256).compact()`
-- [ ] Create `JwtAuthFilter.java` in `common/security/` — extends `OncePerRequestFilter`, extracts Bearer token, validates, sets `SecurityContextHolder`
-- [ ] Create `UserDetailsServiceImpl.java` in `common/security/` — loads user by email from `AuthRepository`
-- [ ] Create `SecurityConfig.java` in `common/security/` — `SecurityFilterChain` bean, stateless session, CSRF disabled, `permitAll` only on `/api/auth/**`, all other routes require auth, JWT filter inserted before `UsernamePasswordAuthenticationFilter`
-- [ ] Write `JwtUtilTest.java` — test token generation, extraction, expiry, tampered token rejection
-- [ ] Verify: unauthenticated `GET /api/transactions` returns 401 (endpoint doesn't exist yet — expect 401 not 404)
+- [x] Create `JwtUtil.java` in `common/security/` — methods: `generateToken(username)`, `extractUsername(token)`, `isTokenValid(token, userDetails)`
+- [x] Use JJWT 0.12.x API only — `Jwts.builder().subject(...).signWith(key, Jwts.SIG.HS256).compact()`
+- [x] Create `JwtAuthFilter.java` in `common/security/` — extends `OncePerRequestFilter`, extracts Bearer token, validates, sets `SecurityContextHolder`
+- [x] Create `UserDetailsServiceImpl.java` in `common/security/` — loads user by email from `AuthRepository`
+- [x] Create `SecurityConfig.java` in `common/security/` — `SecurityFilterChain` bean, stateless session, CSRF disabled, `permitAll` only on `/api/auth/**`, all other routes require auth, JWT filter inserted before `UsernamePasswordAuthenticationFilter`
+- [x] Write `JwtUtilTest.java` — test token generation, extraction, expiry, tampered token rejection
+- [x] Verify: unauthenticated `GET /api/transactions` returns 401 (endpoint doesn't exist yet — expect 401 not 404)
 
 ### 2c. Exception Handling & OpenAPI
 

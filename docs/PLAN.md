@@ -92,14 +92,14 @@
 
 **Depends on:** Stage 2 complete
 
-- [ ] Create `RegisterRequest.java` and `LoginRequest.java` DTOs in `auth/dto/` — add Bean Validation annotations (`@NotBlank`, `@Email`)
-- [ ] Create `AuthResponse.java` DTO in `auth/dto/` — field: `token` (String)
-- [ ] Create `AuthRepository.java` in `auth/` — `findByEmail(String email)` method
-- [ ] Create `AuthService.java` in `auth/` — `register(RegisterRequest)` hashes password with BCrypt, saves user, returns JWT; `login(LoginRequest)` validates credentials, returns JWT
-- [ ] Create `AuthController.java` in `auth/` — `POST /api/auth/register`, `POST /api/auth/login`, both `@Operation` annotated for Swagger
-- [ ] Write `AuthServiceTest.java` — test register success, duplicate email, login success, wrong password
-- [ ] Write `AuthControllerTest.java` — integration test full register → login → JWT returned flow
-- [ ] Manual Swagger check: register → copy token → click Authorize → login confirms same user
+- [x] Create `RegisterRequest.java` and `LoginRequest.java` DTOs in `auth/dto/` — add Bean Validation annotations (`@NotBlank`, `@Email`)
+- [x] Create `AuthResponse.java` DTO in `auth/dto/` — field: `token` (String)
+- [x] Create `AuthRepository.java` in `auth/` — `findByEmail(String email)` method
+- [x] Create `AuthService.java` in `auth/` — `register(RegisterRequest)` hashes password with BCrypt, saves user, returns JWT; `login(LoginRequest)` validates credentials, returns JWT
+- [x] Create `AuthController.java` in `auth/` — `POST /api/auth/register`, `POST /api/auth/login`, both `@Operation` annotated for Swagger
+- [x] Write `AuthServiceTest.java` — test register success, duplicate email, login success, wrong password, user not found
+- [x] Write `AuthControllerTest.java` — integration test full register → login → JWT returned flow, 401 responses
+- [x] Manual Swagger check: register → copy token → click Authorize → login confirms same user
 
 **Acceptance criteria:** A cold tester can register, log in, receive a JWT, and authenticate subsequent requests through Swagger with zero setup.
 

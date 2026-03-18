@@ -53,3 +53,16 @@
 **Root cause:** Spring Security 6's core `User` object does not contain a static `.builder()` method without arguments. The proper initialization chain begins with `.withUsername(String)`.
 **Solution:** Replaced `User.builder().username(email)...` with `User.withUsername(email)...` across all security-reliant services and tests.
 **Prevention:** Never use generic Lombok-style `builder()` syntax on canonical Spring Security classes without verifying their documented initialization signatures.
+
+---
+### ISSUE-005: Default Spring Security HTTP 403 instead of 401 on Unauthorized Access
+**Date:** 2026-03-18
+**Status:** ✅ Resolved
+**Category:** Bug
+**Files:** `SecurityConfig.java`
+
+**What happened:** CI/Local integration tests for `invalidJwtReturns401` and `shouldRejectUnauthenticatedRequest` failed returning a 403 Forbidden instead of 401 Unauthorized.
+**Error:** `java.lang.AssertionError: Status expected:<401> but was:<403>`
+**Root cause:** Spring Security 6.x defaults to `403 Forbidden` for unauthenticated requests attempting to access protected resources when no explicit AuthenticationEntryPoint is set.
+**Solution:** Added an explicit `.exceptionHandling()` configuration in `SecurityConfig.java` to return `HttpServletResponse.SC_UNAUTHORIZED` (401).
+**Prevention:** Always define an explicit `AuthenticationEntryPoint` in stateless JWT Spring Security configurations if 401 Unauthorized is expected for unauthenticated requests.

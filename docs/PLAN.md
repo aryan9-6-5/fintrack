@@ -32,21 +32,21 @@
 
 **Goal:** A running Spring Boot app connected to PostgreSQL, containerized, with CI pipeline active. No feature code yet.
 
-- [ ] Generate project via Spring Initializr with dependencies: Spring Web, Spring Data JPA, Spring Security, PostgreSQL Driver, Lombok, Validation, Actuator
-- [ ] Add manual dependencies to `pom.xml`: JJWT 0.12.x (3 artifacts), MapStruct 1.5.x, Springdoc OpenAPI 2.x
-- [ ] Fix annotation processor order in `pom.xml`: Lombok declared before MapStruct in `annotationProcessorPaths`
-- [ ] Create folder structure exactly per ARCHITECTURE.md: `auth/`, `transaction/`, `fraud/`, `common/security/`, `common/exception/`, `common/config/`
-- [ ] Create `application.yml`, `application-dev.yml`, `application-prod.yml`, `application-test.yml`
-- [ ] Create `.env.example` with all variables from ARCHITECTURE.md environment table
-- [ ] Create `.env` locally (gitignored) with real dev values
-- [ ] Add `.env` to `.gitignore` — verify it does not appear in `git status`
-- [ ] Create `docker-compose.yml` — spins up app + PostgreSQL 15
-- [ ] Create `Dockerfile` — multi-stage build (build with Maven, run with JRE)
-- [ ] Verify: `docker-compose up` starts both containers, app connects to DB, no errors
-- [ ] Verify: `GET /actuator/health` returns `{"status":"UP"}`
-- [ ] Create `.github/workflows/ci-cd.yml` — runs `mvn test` on every push
-- [ ] Push to GitHub — confirm GitHub Actions run appears and passes (empty test suite passes)
-- [ ] Create `README.md` skeleton with sections: Overview, Local Setup, API Reference, Architecture, Live URL (placeholder)
+- [x] Generate project via Spring Initializr with dependencies: Spring Web, Spring Data JPA, Spring Security, PostgreSQL Driver, Lombok, Validation, Actuator
+- [x] Add manual dependencies to `pom.xml`: JJWT 0.12.x (3 artifacts), MapStruct 1.5.x, Springdoc OpenAPI 2.x
+- [x] Fix annotation processor order in `pom.xml`: Lombok declared before MapStruct in `annotationProcessorPaths`
+- [x] Create folder structure exactly per ARCHITECTURE.md: `auth/`, `transaction/`, `fraud/`, `common/security/`, `common/exception/`, `common/config/`
+- [x] Create `application.yml`, `application-dev.yml`, `application-prod.yml`, `application-test.yml`
+- [x] Create `.env.example` with all variables from ARCHITECTURE.md environment table
+- [x] Create `.env` locally (gitignored) with real dev values
+- [x] Add `.env` to `.gitignore` — verify it does not appear in `git status`
+- [x] Create `docker-compose.yml` — spins up app + PostgreSQL 15
+- [x] Create `Dockerfile` — multi-stage build (build with Maven, run with JRE)
+- [x] Verify: `docker-compose up` starts both containers, app connects to DB, no errors
+- [x] Verify: `GET /actuator/health` returns `{"status":"UP"}`
+- [x] Create `.github/workflows/ci-cd.yml` — runs `mvn test` on every push
+- [x] Push to GitHub — confirm GitHub Actions run appears and passes (empty test suite passes)
+- [x] Create `README.md` skeleton with sections: Overview, Local Setup, API Reference, Architecture, Live URL (placeholder)
 
 **Stage 1 is done when:** `docker-compose up` runs clean, `/actuator/health` responds, and GitHub Actions shows a green build.
 
@@ -58,11 +58,11 @@
 
 ### 2a. Database & Entities
 
-- [ ] Create `User.java` entity in `auth/` — fields: `id` (Long), `email` (unique), `password` (hashed), `createdAt`
-- [ ] Create `Transaction.java` entity in `transaction/` — fields: `id`, `userId` (FK to User), `amount` (BigDecimal), `type` (INCOME/EXPENSE enum), `category` (String), `description` (String, nullable), `isFlagged` (boolean, default false), `createdAt`
-- [ ] Create `TransactionType.java` enum in `transaction/` — values: `INCOME`, `EXPENSE`
-- [ ] Verify Hibernate creates schema correctly: `spring.jpa.hibernate.ddl-auto=update`, check tables appear in DB
-- [ ] Connect to local PostgreSQL via DBeaver or psql and confirm `users` and `transactions` tables exist with correct columns
+- [x] Create `User.java` entity in `auth/` — fields: `id` (Long), `email` (unique), `password` (hashed), `createdAt`
+- [x] Create `Transaction.java` entity in `transaction/` — fields: `id`, `userId` (FK to User), `amount` (BigDecimal), `type` (INCOME/EXPENSE enum), `category` (String), `description` (String, nullable), `isFlagged` (boolean, default false), `createdAt`
+- [x] Create `TransactionType.java` enum in `transaction/` — values: `INCOME`, `EXPENSE`
+- [x] Verify Hibernate creates schema correctly: `spring.jpa.hibernate.ddl-auto=update`, check tables appear in DB
+- [x] Connect to local PostgreSQL via DBeaver or psql and confirm `users` and `transactions` tables exist with correct columns
 
 ### 2b. Spring Security & JWT
 

@@ -1,47 +1,27 @@
-# ─── Private project docs (AI workflow, internal planning) ───
-private/
-
-# ─── Secrets ───
-.env
-*.env
-!.env.example
-
-# ─── Java / Maven ───
+# Maven
 target/
-*.class
+!.mvn/wrapper/maven-wrapper.jar
+log/
+**/.DS_Store
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Dependency files
 *.jar
 *.war
-*.ear
 *.nar
+*.ear
 *.zip
 *.tar.gz
 *.rar
-run.sh
-hs_err_pid*
-replay_pid*
 
-# ─── Maven wrapper ───
-.mvn/wrapper/maven-wrapper.jar
+# Environment config
+.env
 
-# ─── IDE ───
-.idea/
-*.iml
-*.iws
-*.ipr
-.vscode/
-*.swp
-*.swo
-.DS_Store
-Thumbs.db
-
-# ─── Docker ───
-docker-compose.override.yml
-
-# ─── Logs ───
-logs/
-*.log
-spring.log
-
-# ─── Test output ───
-/test-output/
+private/
 system/
+run.sh

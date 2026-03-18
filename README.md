@@ -1,141 +1,50 @@
-# FinTrack
+# FinTrack: Personal Finance REST API
 
-Production-grade personal finance REST API built with Java 17 and Spring Boot 3. Handles user authentication, transaction management, category-based spending summaries, and automatic fraud detection — deployed live on AWS.
+FinTrack is a production-grade personal finance REST API built to demonstrate senior backend engineering practices. It utilizes Java, Spring Boot, PostgreSQL, Docker, AWS, and CI/CD pipelines.
 
-**Live API:** `[Swagger URL — added after AWS deployment]`
+## Live Application
+**Live URL:** [TBD — AWS Deployment]
+**Swagger API Docs:** [TBD]/swagger-ui.html
 
----
+## Local Setup
 
-## What it does
+### Prerequisites
+- Docker & docker-compose
+- Java 17 / Maven (optional for running tests)
 
-- **JWT Authentication** — secure registration and login, every protected route requires a valid token
-- **Transaction Management** — full CRUD for income and expense records, scoped per user
-- **Spending Summaries** — category-based breakdowns (e.g. total spent on Food this month)
-- **Fraud Detection** — automatically flags any transaction exceeding 3× the user's historical average
-- **Production Monitoring** — `/actuator/health` endpoint, Docker-ready, CI/CD via GitHub Actions
+### Getting Started
+1. Clone the repository
+2. Set up environment:
+   ```bash
+   cp .env.example .env
+   # Update JWT_SECRET and credentials if desired
+   ```
+3. Run with Docker:
+   ```bash
+   docker-compose up --build
+   ```
+4. Access Swagger UI for API navigation:
+   http://localhost:8080/swagger-ui.html
 
----
+## API Reference
+The Swagger UI provides the primary interface for exploring the endpoints:
+- **Authentication:** `POST /api/auth/register`, `POST /api/auth/login`
+- **Transactions:** `GET`, `POST`, `PUT`, `DELETE` over `/api/transactions`
+- **Fraud Engine:** Integrated automatically into transaction endpoints
 
-## Stack
+### Sample API Call Sequence
+1. **Register:** `POST /api/auth/register` with `{"email": "test@example.com", "password": "Password123!"}`
+2. **Login:** `POST /api/auth/login`
+3. **Capture JWT:** Copy the returned token, paste into Swagger's 'Authorize' button.
+4. **Create Transaction:** `POST /api/transactions`
+5. **Get Summary:** `GET /api/transactions/summary`
+6. **Trigger Fraud:** Submit a transaction amount > 3x average to see the `isFlagged` response property set.
 
-| Layer | Technology |
-|---|---|
-| Language | Java 17 |
-| Framework | Spring Boot 3.x |
-| Database | PostgreSQL 15 (local via Docker, production via AWS RDS) |
-| Auth | Spring Security 6 + JJWT 0.12.x |
-| ORM | Spring Data JPA + Hibernate |
-| DTO Mapping | MapStruct |
-| API Docs | Springdoc OpenAPI (Swagger UI) |
-| Monitoring | Spring Boot Actuator |
-| Container | Docker + docker-compose |
-| CI/CD | GitHub Actions |
-| Deployment | AWS EC2 + RDS (free tier) |
+## Architecture Highlights
+The application follows a clean feature-centric packaging model.
 
----
-
-## Local setup
-
-**Requirements:** Java 17, Docker, Maven
-
-```bash
-git clone https://github.com/aryan9-6-5/fintrack.git
-cd fintrack
-cp .env.example .env        # fill in your values
-docker-compose up           # starts app + PostgreSQL
-```
-
-Swagger UI opens at `http://localhost:8080/swagger-ui.html`
-
----
-
-## Sample API call sequence
-
-**1. Register**
-```bash
-POST /api/auth/register
-{
-  "email": "test@example.com",
-  "password": "SecurePass123!"
-}
-```
-
-**2. Login — copy the token**
-```bash
-POST /api/auth/login
-{
-  "email": "test@example.com",
-  "password": "SecurePass123!"
-}
-```
-
-**3. Create a transaction (paste token in Swagger Authorize)**
-```bash
-POST /api/transactions
-{
-  "amount": 85.00,
-  "type": "EXPENSE",
-  "category": "Food",
-  "description": "Grocery run"
-}
-```
-
-**4. Trigger the fraud detector**
-```bash
-POST /api/transactions
-{
-  "amount": 9999.00,
-  "type": "EXPENSE",
-  "category": "Other",
-  "description": "Large purchase"
-}
-# Response includes: "isFlagged": true
-```
-
-**5. Get category summary**
-```bash
-GET /api/transactions/summary?month=3&year=2026
-```
-
----
-
-## Architecture
-
-```
-src/main/java/com/fintrack/
-├── auth/           # Registration, login, JWT
-├── transaction/    # CRUD, summaries, fraud trigger
-├── fraud/          # Stateless rule engine (3× average = flagged)
-└── common/
-    ├── security/   # JWT filter, Spring Security config
-    ├── exception/  # Global error handler
-    └── config/     # OpenAPI / Swagger config
-```
-
-Hybrid package structure — features own their code, cross-cutting concerns live in `common/`. Each feature package could be extracted into a microservice with minimal refactoring.
-
----
-
-## Running tests
-
-```bash
-mvn test                          # all tests
-mvn test jacoco:report            # with coverage report
-mvn test -Dtest=FraudDetectionServiceTest   # single class
-```
-
-Tests use H2 in-memory database — no Docker required to run the test suite.
-
----
-
-## Deployment
-
-Deployed on AWS free tier:
-- **Compute:** EC2 t2.micro
-- **Database:** RDS PostgreSQL db.t3.micro
-- **CI/CD:** GitHub Actions — tests run on every push, deploy on green merge to `main`
-
-```bash
-docker build -t fintrack .
-# deploy via GitHub Actions on push to main
-```
+### Package Structure
+- `auth`: Registration, login
+- `transaction`: Income/Expense features, summaries
+- `fraud`: Stateless rules processing
+- `common`: Cross-cutting config, exception handling, and security

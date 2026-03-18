@@ -16,7 +16,7 @@ target/
 *.zip
 *.tar.gz
 *.rar
-*.sh
+run.sh
 hs_err_pid*
 replay_pid*
 

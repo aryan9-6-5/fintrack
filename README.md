@@ -1,62 +1,66 @@
-# FinTrack: Personal Finance REST API
+# FinTrack API 📊
 
-FinTrack is a production-grade personal finance REST API built to demonstrate senior backend engineering practices. It utilizes Java, Spring Boot, PostgreSQL, Docker, AWS, and CI/CD pipelines.
+Production-grade personal finance REST API with JWT authentication, PostgreSQL persistence, and automated fraud detection.
 
-## Live Application
-**Live URL:** [TBD — AWS Deployment]
-**Swagger API Docs:** [TBD]/swagger-ui.html
+**Live Swagger UI:** [http://18.234.231.225:8080/swagger-ui.html](http://18.234.231.225:8080/swagger-ui.html)
 
-## Local Setup
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white) 
+![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white) 
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white) 
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) 
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white) 
+![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
 
-### Prerequisites
-- Docker & docker-compose
-- Java 17 / Maven (optional for running tests)
+## What It Does
+- **Secure Authentication**: Stateless JWT-based registration and login flows.
+- **Transaction Management**: Full CRUD for income and expenses with strict user data isolation.
+- **Fraud Detection**: Automated flagging of suspicious transactions (3x historical average).
+- **Category Summaries**: Per-month and per-year financial breakdown by category.
+- **Production-Ready Ops**: Actuator health monitoring, Swagger documentation, and automated CI/CD.
 
-### Getting Started
-1. Clone the repository
-2. Set up environment:
+## Quick Start
+1. **Clone & Environment**:
    ```bash
-   cp .env.example .env
-   # Update JWT_SECRET and credentials if desired
+   git clone https://github.com/aryan9-6-5/fintrack.git
+   cp .env.example .env # Set your JWT_SECRET (min 32 chars)
    ```
-3. Run with Docker:
+2. **Launch Containers**:
    ```bash
    docker-compose up --build
    ```
-4. Access Swagger UI for API navigation:
-   http://localhost:8080/swagger-ui.html
+3. **Explore API**:
+   Open [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) locally.
 
-## API Reference
-The Swagger UI provides the primary interface for exploring the endpoints:
-- **Authentication:** `POST /api/auth/register`, `POST /api/auth/login`
-- **Transactions:** `GET`, `POST`, `PUT`, `DELETE` over `/api/transactions`
-- **Fraud Engine:** Integrated automatically into transaction endpoints
+## Sample API Call Sequence
+1. **Register**: `POST /api/auth/register` with email and password.
+2. **Login**: `POST /api/auth/login`.
+3. **Authorize**: Copy the `token`, click **Authorize** in Swagger, and paste it.
+4. **Create Data**: Post multiple transactions to establish a historical average.
+5. **Get Summary**: `GET /api/transactions/summary` to see totals grouped by category.
+6. **Trigger Fraud**: Post a transaction > 3x your average to see `isFlagged: true` in the response.
 
-### Sample API Call Sequence
-1. **Register:** `POST /api/auth/register` with `{"email": "test@example.com", "password": "Password123!"}`
-2. **Login:** `POST /api/auth/login`
-3. **Capture JWT:** Copy the returned token, paste into Swagger's 'Authorize' button.
-4. **Create Transaction:** `POST /api/transactions`
-5. **Get Summary:** `GET /api/transactions/summary`
-6. **Trigger Fraud:** Submit a transaction amount > 3x average to see the `isFlagged` response property set.
+## Architecture
+Following a clean, feature-centric package structure:
+```text
+com.fintrack
+├── auth         # Registration, user management, and JWT generation
+├── transaction  # Core financial logic, CRUD, and summary queries
+├── fraud        # Stateless fraud detection rules engine
+├── common
+│   ├── security # Spring Security 6 config and JWT filters
+│   ├── exception# Global error handling and shared DTOs
+│   └── config   # OpenAPI/Swagger and Spring configs
+```
 
-## Testing & Quality
-The project maintains high code quality with a strict testing regime:
-- **Unit Tests:** Service-layer logic and utility classes.
-- **Integration Tests:** Controller-layer endpoints using MockMvc and H2.
-- **Coverage Gate:** Enforced via JaCoCo with an **80% line coverage minimum** for primary business logic packages (`com.fintrack.fraud`, `com.fintrack.transaction`).
-
-To run tests and generate a coverage report:
+## Running Tests
+Ensure high reliability with the JaCoCo coverage gate (80% minimum):
 ```bash
 mvn clean test jacoco:report
 ```
-Check the report at `target/site/jacoco/index.html`.
+Access the report at `target/site/jacoco/index.html`.
 
-## Architecture Highlights
-The application follows a clean feature-centric packaging model.
-
-### Package Structure
-- `auth`: Registration, login
-- `transaction`: Income/Expense features, summaries
-- `fraud`: Stateless rules processing
-- `common`: Cross-cutting config, exception handling, and security
+## Deployment Notes
+- **Hosting**: AWS EC2 with Docker.
+- **Database**: PostgreSQL (RDS).
+- **CI/CD**: GitHub Actions automates testing and compilation.
+- **Health**: [http://18.234.231.225:8080/actuator/health](http://18.234.231.225:8080/actuator/health)

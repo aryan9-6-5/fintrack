@@ -144,7 +144,7 @@ class TransactionServiceTest {
     @DisplayName("Get summary returns projected summaries")
     void getSummary() {
         when(authRepository.findByEmail(testEmail)).thenReturn(Optional.of(testUser));
-        CategorySummaryResponse summary = new CategorySummaryResponse("Food", new BigDecimal("100"), 1L);
+        CategorySummaryResponse summary = new CategorySummaryResponse("Food", new BigDecimal("100"));
         when(transactionRepository.getSummary(1L, null, null)).thenReturn(List.of(summary));
 
         List<CategorySummaryResponse> results = transactionService.getSummary(testEmail, null, null);

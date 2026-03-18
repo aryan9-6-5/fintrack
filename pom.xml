@@ -17,6 +17,7 @@
         <java.version>17</java.version>
         <jjwt.version>0.12.5</jjwt.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <lombok.version>1.18.30</lombok.version>
     </properties>
     <dependencies>
         <dependency>

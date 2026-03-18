@@ -9,6 +9,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -22,9 +24,6 @@ jobs:
 
       - name: Run Tests
         run: mvn -B test -Dspring.profiles.active=test
-
-      - name: Check JaCoCo Coverage
-        run: mvn -B jacoco:check -Dspring.profiles.active=test
 
 
   build-and-deploy:

@@ -28,8 +28,7 @@ class JwtUtilTest {
         ReflectionTestUtils.setField(jwtUtil, "secretKey", "7yR9sT2vW5xZ8aB1cD4eF6gH9iJ2kL5mN8oP1qR4sT7uV0wX3yZ6aB9cD2eF5gH8iJ");
         ReflectionTestUtils.setField(jwtUtil, "jwtExpirationMs", 3600000L);
 
-        userDetails = User.builder()
-                .username("test@example.com")
+        userDetails = User.withUsername("test@example.com")
                 .password("password")
                 .authorities(Collections.emptyList())
                 .build();

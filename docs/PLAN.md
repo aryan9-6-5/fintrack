@@ -76,11 +76,11 @@
 
 ### 2c. Exception Handling & OpenAPI
 
-- [ ] Create `ApiErrorResponse.java` in `common/exception/` — fields: `status`, `message`, `timestamp`
-- [ ] Create `ResourceNotFoundException.java` and `UnauthorizedException.java` in `common/exception/`
-- [ ] Create `GlobalExceptionHandler.java` in `common/exception/` — `@ControllerAdvice`, catches all custom exceptions + `MethodArgumentNotValidException`, returns `ApiErrorResponse`
-- [ ] Create `OpenApiConfig.java` in `common/config/` — adds JWT Bearer auth scheme to Swagger UI so interviewers can authenticate without reading code
-- [ ] Verify: Swagger UI loads at `/swagger-ui.html` with JWT auth button visible
+- [x] Create `ApiErrorResponse.java` in `common/exception/` — fields: `status`, `message`, `timestamp`
+- [x] Create `ResourceNotFoundException.java` and `UnauthorizedException.java` in `common/exception/`
+- [x] Create `GlobalExceptionHandler.java` in `common/exception/` — `@ControllerAdvice`, catches all custom exceptions + `MethodArgumentNotValidException`, returns `ApiErrorResponse`
+- [x] Create `OpenApiConfig.java` in `common/config/` — adds JWT Bearer auth scheme to Swagger UI so interviewers can authenticate without reading code
+- [x] Verify: Swagger UI loads at `/swagger-ui.html` with JWT auth button visible
 
 **Stage 2 is done when:** Schema exists in DB, JWT round-trip works in isolation (unit test passes), unauthenticated requests return 401, Swagger UI loads with auth configured.
 

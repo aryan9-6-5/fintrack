@@ -66,3 +66,16 @@
 **Root cause:** Spring Security 6.x defaults to `403 Forbidden` for unauthenticated requests attempting to access protected resources when no explicit AuthenticationEntryPoint is set.
 **Solution:** Added an explicit `.exceptionHandling()` configuration in `SecurityConfig.java` to return `HttpServletResponse.SC_UNAUTHORIZED` (401).
 **Prevention:** Always define an explicit `AuthenticationEntryPoint` in stateless JWT Spring Security configurations if 401 Unauthorized is expected for unauthenticated requests.
+
+---
+### ISSUE-006: MapStruct Unknown property on boolean builder vs setter
+**Date:** 2026-03-18
+**Status:** ✅ Resolved
+**Category:** Gotcha
+**Files:** `TransactionMapper.java`
+
+**What happened:** Compilation error `Unknown property "flagged"` when using MapStruct to map to an entity, and `Unknown property "isFlagged"` when mapping using `updateEntityFromRequest`.
+**Error:** `/TransactionMapper.java:[18,17] Unknown property "flagged" in result type Transaction.TransactionBuilder. Did you mean "null"?`
+**Root cause:** For a boolean `isFlagged`, Lombok generates builder properties named `isFlagged` but standard setters define the property name as `flagged`.
+**Solution:** Explicitly set `@Mapping(target = "isFlagged", ignore = true)` for the builder map (`toEntity`) and `@Mapping(target = "flagged", ignore = true)` for the object updater map (`updateEntityFromRequest`).
+**Prevention:** Be aware that MapStruct treats Lombok builder boolean properties differently than JavaBean setter properties for booleans starting with `is`.

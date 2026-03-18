@@ -109,15 +109,15 @@
 
 **Depends on:** 3a (auth) complete — all endpoints require valid JWT
 
-- [ ] Create `TransactionRequest.java` DTO — fields: `amount`, `type`, `category`, `description`; add `@NotNull`, `@Positive` validation
-- [ ] Create `TransactionResponse.java` DTO — all fields including `isFlagged`, `createdAt`
-- [ ] Create MapStruct mapper `TransactionMapper.java` — `toResponse(Transaction)`, `toEntity(TransactionRequest)`
-- [ ] Create `TransactionRepository.java` — `findAllByUserId(Long userId)`, `findByIdAndUserId(Long id, Long userId)`
-- [ ] Create `TransactionService.java` — `create`, `getAll`, `getById`, `update`, `delete` — all scoped to authenticated user ID; calls `FraudDetectionService` on create/update
-- [ ] Create `TransactionController.java` — `POST /api/transactions`, `GET /api/transactions`, `GET /api/transactions/{id}`, `PUT /api/transactions/{id}`, `DELETE /api/transactions/{id}`; extract user ID from `SecurityContext`, never from request body
-- [ ] Write `TransactionServiceTest.java` — test each CRUD method, verify user scoping (user A cannot get user B's transaction)
-- [ ] Write `TransactionControllerTest.java` — integration test each endpoint with valid JWT, invalid JWT, and wrong-user scenarios
-- [ ] Manual Swagger check: create 3 transactions, retrieve all, update one, delete one
+- [x] Create `TransactionRequest.java` DTO — fields: `amount`, `type`, `category`, `description`; add `@NotNull`, `@Positive` validation
+- [x] Create `TransactionResponse.java` DTO — all fields including `isFlagged`, `createdAt`
+- [x] Create MapStruct mapper `TransactionMapper.java` — `toResponse(Transaction)`, `toEntity(TransactionRequest)`
+- [x] Create `TransactionRepository.java` — `findAllByUserId(Long userId)`, `findByIdAndUserId(Long id, Long userId)`
+- [x] Create `TransactionService.java` — `create`, `getAll`, `getById`, `update`, `delete` — all scoped to authenticated user ID; calls `FraudDetectionService` on create/update
+- [x] Create `TransactionController.java` — `POST /api/transactions`, `GET /api/transactions`, `GET /api/transactions/{id}`, `PUT /api/transactions/{id}`, `DELETE /api/transactions/{id}`; extract user ID from `SecurityContext`, never from request body
+- [x] Write `TransactionServiceTest.java` — test each CRUD method, verify user scoping (user A cannot get user B's transaction)
+- [x] Write `TransactionControllerTest.java` — integration test each endpoint with valid JWT, invalid JWT, and wrong-user scenarios
+- [x] Manual Swagger check: create 3 transactions, retrieve all, update one, delete one
 
 **Acceptance criteria:** Full CRUD works authenticated. Unauthenticated requests return 401. Cross-user access returns 403.
 
@@ -127,12 +127,12 @@
 
 **Depends on:** 3b (transaction CRUD) — `FraudDetectionService` is called by `TransactionService`
 
-- [ ] Create `FraudDetectionService.java` in `fraud/` — single public method `isFraudulent(BigDecimal amount, BigDecimal userAverage)` returns boolean; stateless, no repository, no `@Autowired` dependencies
-- [ ] Implement rule: `amount.compareTo(userAverage.multiply(BigDecimal.valueOf(3))) >= 0` → flagged; handle zero average (no flag)
-- [ ] Wire into `TransactionService.create()` — calculate user's historical average from repository, call `FraudDetectionService`, set `isFlagged` on entity before save
-- [ ] `isFlagged` appears in `TransactionResponse` DTO
-- [ ] Write `FraudDetectionServiceTest.java` — test: below 3x (no flag), exactly 3x (flag), above 3x (flag), zero average (no flag), first transaction (no flag)
-- [ ] Manual Swagger check: create several normal transactions, then one large one — confirm `isFlagged: true` in response
+- [x] Create `FraudDetectionService.java` in `fraud/` — single public method `isFraudulent(BigDecimal amount, BigDecimal userAverage)` returns boolean; stateless, no repository, no `@Autowired` dependencies
+- [x] Implement rule: `amount.compareTo(userAverage.multiply(BigDecimal.valueOf(3))) >= 0` → flagged; handle zero average (no flag)
+- [x] Wire into `TransactionService.create()` — calculate user's historical average from repository, call `FraudDetectionService`, set `isFlagged` on entity before save
+- [x] `isFlagged` appears in `TransactionResponse` DTO
+- [x] Write `FraudDetectionServiceTest.java` — test: below 3x (no flag), exactly 3x (flag), above 3x (flag), zero average (no flag), first transaction (no flag)
+- [x] Manual Swagger check: create several normal transactions, then one large one — confirm `isFlagged: true` in response
 
 **Acceptance criteria:** `isFlagged: true` appears on any transaction at or above 3x the user's historical average. First transaction is never flagged. Zero-average edge case handled without error.
 
@@ -142,13 +142,13 @@
 
 **Depends on:** 3b (transactions exist to summarize)
 
-- [ ] Create `CategorySummaryResponse.java` DTO in `transaction/dto/` — fields: `category` (String), `total` (BigDecimal), `transactionCount` (int)
-- [ ] Add custom query to `TransactionRepository` — `@Query` that groups by category, sums amounts, filters by userId and optional month/year
-- [ ] Add `getSummary(Long userId, Integer month, Integer year)` to `TransactionService`
-- [ ] Add `GET /api/transactions/summary` to `TransactionController` — optional query params `?month=3&year=2026`
-- [ ] Write unit test for summary calculation in `TransactionServiceTest`
-- [ ] Write integration test for summary endpoint in `TransactionControllerTest`
-- [ ] Manual Swagger check: create transactions across 3 categories, hit summary endpoint, verify totals
+- [x] Create `CategorySummaryResponse.java` DTO in `transaction/dto/` — fields: `category` (String), `total` (BigDecimal), `transactionCount` (int)
+- [x] Add custom query to `TransactionRepository` — `@Query` that groups by category, sums amounts, filters by userId and optional month/year
+- [x] Add `getSummary(Long userId, Integer month, Integer year)` to `TransactionService`
+- [x] Add `GET /api/transactions/summary` to `TransactionController` — optional query params `?month=3&year=2026`
+- [x] Write unit test for summary calculation in `TransactionServiceTest`
+- [x] Write integration test for summary endpoint in `TransactionControllerTest`
+- [x] Manual Swagger check: create transactions across 3 categories, hit summary endpoint, verify totals
 
 **Acceptance criteria:** Summary endpoint returns per-category totals for the authenticated user only. Optional month/year filter works. Empty result set returns `[]` not 500.
 

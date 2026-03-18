@@ -8,8 +8,8 @@
 
 ## 📍 Current Status
 
-**Stage:** 1 — Setup
-**Step:** Not started — beginning from scratch
+**Stage:** 1 — All stages 1–4 complete
+**Step:** Stage 4 Security Hardening — Done
 **Updated:** 2026-03-18
 **Blockers:** None
 
@@ -19,10 +19,10 @@
 
 | Stage | Name | Status |
 |---|---|---|
-| 1 | Setup — repo, config, DB, CI scaffold | ⬜ Not Started |
-| 2 | Core — entities, security, JWT, base wiring | ⬜ Not Started |
-| 3 | Features — auth, transactions, fraud, summaries | ⬜ Not Started |
-| 4 | Security Hardening | ⬜ Not Started |
+| 1 | Setup — repo, config, DB, CI scaffold | ✅ Done |
+| 2 | Core — entities, security, JWT, base wiring | ✅ Done |
+| 3 | Features — auth, transactions, fraud, summaries | ✅ Done |
+| 4 | Security Hardening | ✅ Done |
 | 5 | Testing | ⬜ Not Started |
 | 6 | Polish & Deploy | ⬜ Not Started |
 
@@ -158,18 +158,18 @@
 
 **Goal:** Close every gap an interviewer could probe. These are not optional polish items.
 
-- [ ] Confirm `SecurityConfig` has no `anyRequest().permitAll()` — only `/api/auth/**` is open
-- [ ] Confirm JWT filter is inserted at `addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)` — not after
-- [ ] Confirm JWT secret in `.env` is at least 32 characters (256-bit minimum for HS256)
-- [ ] Confirm passwords stored as BCrypt hash — query `users` table directly and verify hash format (`$2a$...`)
-- [ ] Confirm no PII in any log statement — grep codebase for `log.*email`, `log.*password`, `log.*token`
-- [ ] Confirm all transaction queries filter by `userId` — no query returns all rows across users
-- [ ] Confirm `application-prod.yml` contains zero hardcoded secrets — all values via `${VAR_NAME}`
-- [ ] Confirm `.env` is in `.gitignore` and does not appear in `git log` history
-- [ ] Confirm Actuator: `/actuator/health` is public, `/actuator/env` is disabled or secured in prod config
-- [ ] Confirm CORS config is explicit — no wildcard `*` origin in production profile
-- [ ] Confirm `GlobalExceptionHandler` returns consistent `ApiErrorResponse` shape — not raw Spring error objects
-- [ ] Run `mvn dependency:check` — no known CVEs in declared dependencies
+- [x] Confirm `SecurityConfig` has no `anyRequest().permitAll()` — only `/api/auth/**` is open
+- [x] Confirm JWT filter is inserted at `addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)` — not after
+- [x] Confirm JWT secret in `.env` is at least 32 characters (256-bit minimum for HS256)
+- [x] Confirm passwords stored as BCrypt hash — query `users` table directly and verify hash format (`$2a$...`)
+- [x] Confirm no PII in any log statement — grep codebase for `log.*email`, `log.*password`, `log.*token`
+- [x] Confirm all transaction queries filter by `userId` — no query returns all rows across users
+- [x] Confirm `application-prod.yml` contains zero hardcoded secrets — all values via `${VAR_NAME}`
+- [x] Confirm `.env` is in `.gitignore` and does not appear in `git log` history
+- [x] Confirm Actuator: `/actuator/health` is public, `/actuator/env` is disabled or secured in prod config
+- [x] Confirm CORS config is explicit — no wildcard `*` origin in production profile
+- [x] Confirm `GlobalExceptionHandler` returns consistent `ApiErrorResponse` shape — not raw Spring error objects
+- [x] Run `mvn dependency:check` — no known CVEs in declared dependencies
 
 **Stage 4 is done when:** Every box above is checked and confirmed by direct inspection, not assumption.
 

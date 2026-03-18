@@ -40,3 +40,16 @@
 **Root cause:** Jacoco fails the build natively if forced to enforce minimum ratios on packages that don't exist yet (Stage 3/4 content).
 **Solution:** Commented out the restrictive package verification rules in `pom.xml` so we can complete Stage 2.
 **Prevention:** Do not enforce test coverage floors on future project features before they are implemented.
+
+---
+### ISSUE-004: Spring Security User.builder() method not found compilation failure
+**Date:** 2026-03-18
+**Status:** ✅ Resolved
+**Category:** Bug
+**Files:** `UserDetailsServiceImpl.java`, `JwtUtilTest.java`
+
+**What happened:** CI failed during compilation with exit code 1 at the `test` phase. Local `mvn test` failed identically with "Cannot find symbol method builder() in class org.springframework.security.core.userdetails.User".
+**Error:** Cannot find symbol method builder() in class org.springframework.security.core.userdetails.User
+**Root cause:** Spring Security 6's core `User` object does not contain a static `.builder()` method without arguments. The proper initialization chain begins with `.withUsername(String)`.
+**Solution:** Replaced `User.builder().username(email)...` with `User.withUsername(email)...` across all security-reliant services and tests.
+**Prevention:** Never use generic Lombok-style `builder()` syntax on canonical Spring Security classes without verifying their documented initialization signatures.

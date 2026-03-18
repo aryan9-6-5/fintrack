@@ -23,7 +23,7 @@
 | 2 | Core — entities, security, JWT, base wiring | ✅ Done |
 | 3 | Features — auth, transactions, fraud, summaries | ✅ Done |
 | 4 | Security Hardening | ✅ Done |
-| 5 | Testing | ⬜ Not Started |
+| 5 | Testing | ✅ Done |
 | 6 | Polish & Deploy | ⬜ Not Started |
 
 ---
@@ -179,15 +179,15 @@
 
 **Goal:** All tests written, all passing, coverage gate met, CI green.
 
-- [ ] `FraudDetectionServiceTest` — all 5 boundary cases covered (below, exactly at, above 3x, zero average, first transaction)
-- [ ] `JwtUtilTest` — token generation, extraction, expiry, tampered token
-- [ ] `AuthServiceTest` — register success, duplicate email, login success, wrong password
-- [ ] `TransactionServiceTest` — CRUD methods, user scoping, fraud flag trigger
-- [ ] `AuthControllerTest` — register → login → JWT, unauthenticated 401, wrong password 401
-- [ ] `TransactionControllerTest` — all endpoints with valid JWT, invalid JWT, cross-user 403
-- [ ] Run `mvn test jacoco:report` — confirm `fraud` and `transaction/service` packages at 80%+ line coverage
-- [ ] Run full test suite — zero failures, zero skipped tests
-- [ ] Push to GitHub — GitHub Actions shows green on all test jobs
+- [x] `FraudDetectionServiceTest` — all 5 boundary cases covered (below, exactly at, above 3x, zero average, first transaction)
+- [x] `JwtUtilTest` — token generation, extraction, expiry, tampered token
+- [x] `AuthServiceTest` — register success, duplicate email, login success, wrong password
+- [x] `TransactionServiceTest` — CRUD methods, user scoping, fraud flag trigger
+- [x] `AuthControllerTest` — register → login → JWT, unauthenticated 401, wrong password 401
+- [x] `TransactionControllerTest` — all endpoints with valid JWT, invalid JWT, cross-user 403
+- [x] Run `mvn test jacoco:report` — confirm `fraud` and `transaction/service` packages at 80%+ line coverage
+- [x] Run full test suite — zero failures, zero skipped tests
+- [x] Push to GitHub — GitHub Actions shows green on all test jobs
 - [ ] Verify H2 test profile activates correctly — confirm no test touches the dev PostgreSQL database
 
 **Stage 5 is done when:** `mvn test` exits 0, coverage report meets threshold, CI is green.

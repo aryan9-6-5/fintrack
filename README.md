@@ -40,6 +40,18 @@ The Swagger UI provides the primary interface for exploring the endpoints:
 5. **Get Summary:** `GET /api/transactions/summary`
 6. **Trigger Fraud:** Submit a transaction amount > 3x average to see the `isFlagged` response property set.
 
+## Testing & Quality
+The project maintains high code quality with a strict testing regime:
+- **Unit Tests:** Service-layer logic and utility classes.
+- **Integration Tests:** Controller-layer endpoints using MockMvc and H2.
+- **Coverage Gate:** Enforced via JaCoCo with an **80% line coverage minimum** for primary business logic packages (`com.fintrack.fraud`, `com.fintrack.transaction`).
+
+To run tests and generate a coverage report:
+```bash
+mvn clean test jacoco:report
+```
+Check the report at `target/site/jacoco/index.html`.
+
 ## Architecture Highlights
 The application follows a clean feature-centric packaging model.
 

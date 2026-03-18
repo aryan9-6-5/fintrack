@@ -79,3 +79,15 @@
 **Root cause:** For a boolean `isFlagged`, Lombok generates builder properties named `isFlagged` but standard setters define the property name as `flagged`.
 **Solution:** Explicitly set `@Mapping(target = "isFlagged", ignore = true)` for the builder map (`toEntity`) and `@Mapping(target = "flagged", ignore = true)` for the object updater map (`updateEntityFromRequest`).
 **Prevention:** Be aware that MapStruct treats Lombok builder boolean properties differently than JavaBean setter properties for booleans starting with `is`.
+---
+### ISSUE-007: Unexpected binary files (.webp) staged by git add .
+**Date:** 2026-03-18
+**Status:** ✅ Resolved
+**Category:** Chore
+**Files:** `.gitignore`, various directories
+
+**What happened:** Running `git add .` staged binary `.webp` files created by the AI's browser subagent for verification. These were pushed to the repository in error.
+**Error:** `delete mode 100644 tests/swagger_verification_stage3_1773846961175.webp`
+**Root cause:** Browser verification tools generate screenshots/recordings as `.webp`. These are not automatically ignored by the generic `.gitignore`.
+**Solution:** Manually removed files using `git rm` and updated the workflow to be more careful with `git add .`.
+**Prevention:** Always verify `git status` before committing, especially when using browser verification tools. Consider adding `*.webp` to `.gitignore` if they are never intended for the repo.

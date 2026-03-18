@@ -23,6 +23,9 @@ jobs:
       - name: Run Tests
         run: mvn -B test -Dspring.profiles.active=test
 
+      - name: Check JaCoCo Coverage
+        run: mvn -B jacoco:check -Dspring.profiles.active=test
+
 
   build-and-deploy:
     needs: test
